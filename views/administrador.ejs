@@ -1,0 +1,116 @@
+<%- include("partials/head")%>
+
+<body>
+
+    <%- include("partials/header")%>
+
+    <main> <!--Início do conteúdo principal-->
+        <section> <!--Início da primeira seção do conteúdo principal-->
+            <div class="container"> <!--Início do container da primeira seção-->
+                <div class="card"> <!--Início do card do formulário-->
+                    <div class="card-header bg-primary"> <!--Início do cabeçalho do card-->
+                        <h2 class="text-center text-white">Adicionar funcionário</h2>
+                    </div> <!--Fim do cabeçalho do card -->
+                    <div class="card-body"> <!--Início do corpo do cartão-->
+                        <% if(errorMessage) { %>
+                            <div class="alert alert-danger">
+                                <%= errorMessage %>
+                            </div>
+                        <%}%>
+                        <form action="/api/administradores" method="post">
+                            <input type="text" name="nomeAdministrador" id="nomeAdministrador" placeholder="Digite o nome do funcionário" class="form-control mb-4" required>
+                            <input type="email" name="emailAdministrador" id="emailAdministrador" placeholder="Digite o email do funcionário" class="form-control mb-4" required>
+                            <input type="password" name="senhaAdministrador" id="senhaAdministrador" placeholder="Digite a senha do funcionário" class="form-control mb-4" required>
+                            <input type="text" name="funcaoAdministrador" id="funcaoAdministrador" placeholder="Digite a função do funcionário" class="form-control mb-4" required>
+                            <button type="submit" class="btn btn-success w-100">Adicionar funcionário</button>
+                        </form>
+                    </div> <!--Fim do corpo do cartão-->
+                </div> <!--Fim do card do formulário-->
+            </div> <!--Fim do container da primeira seção-->
+        </section> <!--Fim da primeira seção do conteúdo principal-->
+
+        <section class="mt-4"> <!--Início da segunda seção do conteúdo principal-->
+            <div class="container"> <!--Início do container da segunda seção-->
+                <h1 class="text-center">Funcionários</h1>
+                <table class="table table-bordered"> <!--Início da tabela que exibirá os administradores-->
+                    <thead class="thead-dark text-center"> <!--Início do cabeçalho da tabela-->
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Função</th>
+                            <th>Funções</th>
+                        </tr>
+                    </thead> <!--Fim do cabeçalho da tabela-->
+                    <tbody class="table-striped table-hover"> <!--Início do corpo da tabela-->
+                    <% administradores.forEach(adm => { %>
+                        <tr>
+                            <td><%=adm.id%></td>
+                            <td><%=adm.nome %></td>
+                            <td><%=adm.email %></td>
+                            <td><%=adm.funcao %></td>
+                            <td>
+                                <% if(adm.id !== 1) { %>
+                                    <div class="d-flex">
+                                        <form action="/api/administradores/<%= adm.id %>?_method=DELETE" method="POST" class="me-2" onsubmit="confirmarDelecao(event, this)">
+                                            <button type="submit" class="btn btn-danger btn-sm mr-2">Deletar</button>
+                                        </form>
+                                        <a class="btn btn-warning btn-sm" onclick="exibirFormularioAtualizar(event)">Atualizar</a>
+                                    </div>
+                                <% } %>
+                                
+                            </td>
+                        </tr>
+                        <tr style="display: none;" class="formEditar">
+                            <form action="/api/administradores/<%=adm.id%>?_method=PUT" method="post">
+                                <td></td>
+                                <td><input type="text" name="nome" value="<%=adm.nome%>" required class="form-control"></td>
+                                <td><input type="email" name="email" value="<%=adm.email%>" required class="form-control"></td>
+                                <td><input type="text" name="funcao" value="<%=adm.funcao%>" required class="form-control"></td>
+                                <td><button type="submit" class="btn btn-success">Atualizar</button></td>
+                            </form>
+                        </tr>
+                    <% }) %>
+                    </tbody> <!--Fim do corpo da tabela-->
+                </table> <!--Fim da tabela que exibirá os administradores-->
+            </div> <!--Fim do container da segunda seção-->
+        </section> <!--Fim da segunda seção do conteúdo principal-->
+    </main> <!--Fim do conteúdo principal-->
+</body>
+
+<script>
+    function exibirFormularioAtualizar(event) {
+        event.preventDefault(); // Evita que o link siga seu href padrão
+
+        // Selecionar todos os formulários de edição
+        const formularios = document.querySelectorAll('.formEditar');
+
+        // Fechar todos os formulários abertos
+        formularios.forEach(form => {
+            if (form.style.display === "table-row") {
+                form.style.display = "none"; // Esconde qualquer formulário aberto
+            }
+        });
+
+        // Acessar o formulário que será exibido
+        const formAtualizar = event.target.closest('tr').nextElementSibling;
+
+        // Alternar visibilidade do formulário de atualização
+        if (formAtualizar.style.display === "none") {
+            formAtualizar.style.display = "table-row"; // Mostra o formulário
+        } else {
+            formAtualizar.style.display = "none"; // Oculta o formulário
+        }
+    }
+
+    function confirmarDelecao(event, form) {
+        event.preventDefault() ; 
+        let decisao = confirm("Deseja realmente deletar o administrador?") ; 
+        if(decisao) {
+            form.submit() ; 
+        }
+    }
+</script>
+
+
+<%- include("partials/footer") %>

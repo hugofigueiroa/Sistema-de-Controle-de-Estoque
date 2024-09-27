@@ -1,0 +1,38 @@
+<%- include("partials/head")%>
+
+<body>
+    
+    <%- include("partials/header")%>
+
+    <main> <!--Início do conteúdo principal da página-->
+        <section> <!--Início da seção-->
+            <div class="container"> <!--Início do container-->
+                <div class="card w-50 mx-auto"> <!--Início do card que conterá o formulário-->
+                    <div class="card-header bg-primary"> <!--Início do cabeçalho do cartão-->
+                        <h2 class="text-center text-white">Adicionar desconto</h2>
+                    </div> <!--Fim do cabeçalho do cartão-->
+                    <div class="card-body"> <!--Início do corpo do cartão-->
+                        <form action="/api/atualizardesconto" method="post"> <!--Início do formulário-->
+                            <select name="idProduto" id="idProduto" class="form-control">
+                                <option value="" class="text-center">Selecione o ID do produto</option>
+                                <%produtos.forEach(produto => {%>
+                                    <option value="<%=produto.id%>"><%=produto.id%></option>
+                                <%})%>
+                            </select>
+                            <select name="descontoProduto" id="descontoProduto" class="form-control mt-4">
+                                <option value="" class="text-center">Selecione o Desconto em porcentagem</option>
+                                <option value="10">10%</option>
+                                <option value="15">15%</option>
+                                <option value="20">20%</option>
+                            </select>
+                            <button type="submit" class="btn btn-success w-100 mt-4">Adicionar desconto</button>
+                        </form> <!--Fim do formulário-->
+                    </div> <!--Fim do corpo do cartão-->
+                </div> <!--Fim do card que conterá o formulário-->
+            </div> <!--Fim do container-->
+        </section> <!--Fim da seção-->
+    </main> <!--Fim do conteúdo principal da página-->
+
+</body>
+
+<%- include("partials/footer")%>

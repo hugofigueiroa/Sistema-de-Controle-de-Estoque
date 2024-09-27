@@ -1,0 +1,48 @@
+<%- include("partials/head") %>
+
+<body>
+
+    <%- include("partials/header")%>
+
+    <main> <!--Início do conteúdo principal-->
+        <section> <!--Início da seção-->
+            <div class="container"> <!--Início do container-->
+                <div class="row"> <!--Início da linha-->
+                    <div class="col-md-6 mx-auto"> <!--Início da coluna-->
+                        <div class="card"> <!--Início do cartão-->
+                            <div class="card-header bg-primary"> <!--Início do cabeçalho do cartão-->
+                                <h2 class="text-center text-white">Contato</h2>
+                            </div> <!--Fim do cabeçalho do cartão-->
+                            <div class="card-body"> <!--Início do corpo do cartão-->
+                                <form action="https://api.staticforms.xyz/submit" method="post" target="hidden_iframe" onsubmit="displaySuccessMessage();">
+                                    <input type="hidden" name="accessKey" value="82f7cac5-5fab-4678-8951-d3cd73f521b0">
+                                    
+                                    <input type="text" name="name" id="nomeContato" placeholder="Digite seu nome" class="form-control mb-3" required>
+                                    <input type="email" name="email" id="emailContato" placeholder="Digite seu email" class="form-control mb-3" required>
+                                    <textarea name="message" id="mensagemContato" required class="form-control mb-3" placeholder="Digite sua mensagem"></textarea>
+                                    <button type="submit" class="btn btn-primary w-100">Enviar mensagem</button>
+                                </form>
+                                <div class="alert alert-success mt-3" role="alert" id="successMessage" style="display: none;">
+                                    <p>Mensagem enviada com sucesso!</p>
+                                </div>
+                            </div> <!--Fim do corpo do cartão-->
+                        </div> <!--Fim do cartão-->
+                    </div> <!--Fim da coluna-->
+                </div> <!--Fim da linha-->
+            </div> <!--Fim do container-->
+        </section> <!--Fim da seção-->
+    </main> <!--Fim do conteúdo principal-->
+
+    <iframe name="hidden_iframe" style="display:none;"></iframe>
+    
+    <script>
+        function displaySuccessMessage() {
+            setTimeout(function() {
+                document.getElementById('successMessage').style.display = 'block';
+                document.querySelector('form').reset();
+            }, 500);
+        }
+    </script>
+</body>
+
+<%- include ("partials/footer")%>

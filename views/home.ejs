@@ -1,0 +1,104 @@
+<%- include("partials/head") %> 
+
+<body>
+    <%- include("partials/header") %> 
+
+    <main> <!--Início do conteúdo principal da página-->
+        <section> <!--Início da seção-->
+            <div class="container"> <!--Início do container-->
+                <h1 class="text-center">Produtos</h1>
+                <table class="table table-bordered"> <!--Início da tabela-->
+                    <thead class="thead-dark text-center"> <!--Início do cabeçalho da tabela-->
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Quantidade</th>
+                            <th>Preço</th>
+                            <th>Desconto</th>
+                            <th>Valor total</th>
+                            <th>Valor t. c/desconto</th>
+                            <th>Funções</th>
+                            <th></th>
+                        </tr>
+                    </thead> <!--Fim do cabeçalho da tabela-->
+
+                    <% produtos.forEach(produto => { %>
+                    <tbody class="table-striped table-hover"> <!--Início do corpo da tabela-->
+                            <tr>
+                                <td><%=produto.id%></td>
+                                <td><%=produto.nome%></td>
+                                <td><%=produto.quantidade%></td>
+                                <td><%=produto.preco%></td>
+                                <td><%=produto.desconto%>%</td>
+                                <td>R$<%=(produto.quantidade * produto.preco)%></td>
+                                <td>R$<%=(produto.quantidade * produto.preco) - ((produto.quantidade * produto.preco * produto.desconto) / 100)%></td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <a href="" class="btn btn-success btn-sm mr-2" onclick="exibirFormularioAdicionar(event)">+</a>
+                                        <a href="" class="btn btn-warning btn-sm mr-2" onclick="exibirFormularioRemover(event)">-</a>
+                                        <form action="/api/produtos/<%= produto.id%>?_method=DELETE" method="POST" onsubmit="confirmarDelecao(event, this)">
+                                            <button type="submit" class="btn btn-danger btn-sm">D</button>
+                                        </form>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <form action="/api/incrementarproduto?_method=PUT" method="POST" class="formAdicionar" style="display: none;">
+                                            <input type="hidden" name="id" value="<%=produto.id%>"> <!-- Adiciona o ID do produto -->
+                                            <input type="number" name="quantidade" placeholder="Adicionar quantidade" class="form-control">
+                                            <button type="submit" class="btn btn-success btn-sm mt-1">Adicionar</button>
+                                        </form>
+                                        
+                                        <form action="/api/decrementarproduto?_method=PUT" method="POST" class="formRemover" style="display: none;">
+                                            <input type="hidden" name="id" value="<%=produto.id%>"> <!-- Adiciona o ID do produto -->
+                                            <input type="number" name="quantidade" placeholder="Remover quantidade" class="form-control">
+                                            <button type="submit" class="btn btn-warning btn-sm mt-1">Remover</button>
+                                        </form>
+                                        
+                                    </div>
+                                </td>
+                                
+                            </tr>    
+                            <%})%>
+                    </tbody> <!--Fim do corpo da tabela-->
+                </table> <!--Fim da tabela-->
+                <a href="/api/registrarprodutos" class="btn btn-success">Adicionar produto</a>
+                <a href="/api/registrarDesconto" class="btn btn-warning">Adicionar desconto</a>
+
+            </div> <!--Fim do container-->
+        </section> <!--Fim da seção-->
+    </main> <!--Fim do conteúdo principal da página-->
+</body>
+
+<script>
+
+    
+    function exibirFormularioAdicionar(event) {
+        event.preventDefault(); // Evita que o link siga seu href padrão
+        const formAdicionar = event.target.closest('tr').querySelector('.formAdicionar');
+        const formRemover = event.target.closest('tr').querySelector('.formRemover');
+        
+        formRemover.style.display = "none";
+        formAdicionar.style.display = "block";
+    }
+
+    function exibirFormularioRemover(event) {
+        event.preventDefault(); // Evita que o link siga seu href padrão
+        const formAdicionar = event.target.closest('tr').querySelector('.formAdicionar');
+        const formRemover = event.target.closest('tr').querySelector('.formRemover');
+        
+        formAdicionar.style.display = "none";
+        formRemover.style.display = "block";
+    }
+
+    function confirmarDelecao(event, form) {
+        event.preventDefault() ; 
+        let decisao = confirm("Deseja realmente deletar o produto?") ; 
+        if(decisao) {
+            form.submit() ; 
+        }
+    }
+
+</script>
+
+<%- include("partials/footer") %> ;

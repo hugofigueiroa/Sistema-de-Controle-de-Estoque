@@ -1,0 +1,36 @@
+<%- include("partials/head") %>
+
+<body>
+    <%- include("partials/header") %>
+
+    <main> <!--Início do conteúdo principal da página-->
+        <section> <!--Início da seção-->
+            <div class="container"> <!--Início do container da seção-->
+                <h1 class="text-center"> Clientes</h1>
+                <table class="table table-bordered"> <!--Início da tabela responsável por exibir os clientes-->
+                    <thead class="thead-dark text-center"> <!--Início do cabeçalho da tabela-->
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Data de registro</th>
+                        </tr>
+                    </thead> <!--Fim do cabeçalho da tabela-->
+                    <% clientes.forEach( cliente => { %>
+                    <tbody> <!--Início do corpo da tabela-->
+                        <tr>
+                            <td><%=cliente.id%></td>
+                            <td><%=cliente.nome%></td>
+                            <td><%=cliente.email%></td>
+                            <td><%=cliente.dataRegistro%></td>
+                        </tr>
+                    </tbody> <!--Fim do corpo da tabela-->
+                    <% })%>
+                </table> <!--Fim da tabela responsável por exibir os clientes-->
+            </div> <!--Fim do container da seção-->
+        </section> <!--Fim da seção-->
+    </main> <!--Fim do conteúdo principal da página-->
+
+</body>
+
+<%- include("partials/footer") %>
