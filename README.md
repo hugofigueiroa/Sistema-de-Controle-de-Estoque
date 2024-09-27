@@ -25,11 +25,3 @@
 </ul>
 <hr>
 
-<h3>Imagens</h3>
-<img src="./public/img/1- Tela de Login.png" style="width: 100%;">
-<img src="./public/img/2- Tela de produtos.png" style="width: 100%;">
-<img src="./public/img/3- Tela de desconto.png" style="width: 100%;">
-<img src="./public/img/4- Tela de funcionários.png" style="width: 100%;">
-<img src="./public/img/5- Tela de contato.png" style="width: 100%;">
-
-
